@@ -1,0 +1,47 @@
+<h1>Listing customers</h1>
+
+<table border="1">
+  <tr>
+    <th>Customer name</th>
+    <th>Total income</th>
+	<th>Tax</th>
+	<th>Amount After Tax</th>
+    <th></th>
+    <th></th>
+    <th></th>
+  </tr>
+
+<% @customers.each do |customer| %>
+  <tr>
+    <td><%= customer.customer_name %></td>
+    <td><%= customer.total_income %></td>
+	<td>
+		<% 
+			tax=0;
+			if (customer.total_income  <= 18200) %>
+			   <%= "Nil" %>
+		<% elsif (customer.total_income > 18200 && customer.total_income <= 37000) %>
+			   <% tax = ((customer.total_income-18200)*19)/100+(customer.total_income*1.5/100) %>
+			   <%= tax %>
+		<% elsif (customer.total_income > 37001 && customer.total_income <= 80000) %>
+			   <% tax = 3572+(((customer.total_income-37000)*32.5)/100)+(customer.total_income*1.5/100) %>
+			   <%= tax %>
+		<% elsif (customer.total_income > 80001 && customer.total_income <= 180000) %>
+				<% tax = 17547+(((customer.total_income-80000)*37)/100)+(customer.total_income*1.5/100) %>
+			   <%= tax %>
+		<% else %>
+				<% tax = 54547+(((customer.total_income-180000)*45)/100)+(customer.total_income*1.5/100) %>
+				<%= tax %>
+		<% end %>
+	</td>
+	<td><%= customer.total_income-tax %></td>
+    <td><%= link_to 'Show', customer %></td>
+    <td><%= link_to 'Edit', edit_customer_path(customer) %></td>
+    <td><%= link_to 'Destroy', customer, confirm: 'Are you sure?', method: :delete %></td>
+  </tr>
+<% end %>
+</table>
+
+<br />
+
+<%= link_to 'New Customer', new_customer_path %>
